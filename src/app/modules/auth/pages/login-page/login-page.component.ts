@@ -27,7 +27,7 @@ export class LoginPageComponent implements OnInit {
           [
             Validators.required,
             Validators.minLength(6),
-            Validators.maxLength(12)
+            Validators.maxLength(30)
           ])
       }
     )
@@ -35,12 +35,14 @@ export class LoginPageComponent implements OnInit {
 
   sendLogin(): void {
     const { email, password } = this.formLogin.value
+    console.log(this.formLogin.value);
     this.authService.sendCredentials(email, password)
       //TODO: 200 <400
       .subscribe(responseOk => { //TODO: Cuando el usuario credenciales Correctas ✔✔
         console.log('Session iniciada correcta', responseOk);
         const { tokenSession, data } = responseOk
         this.cookie.set('token', tokenSession, 4, '/') //TODO:📌📌📌📌
+        this.cookie.set('role',data.role,4,'/')
         this.router.navigate(['/', 'tracks'])
       },
         err => {//TODO error 400>=

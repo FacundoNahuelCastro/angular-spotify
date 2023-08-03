@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
@@ -14,27 +16,58 @@ export class SideBarComponent implements OnInit {
 
   customOptions: Array<any> = []
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private cookieService: CookieService) { }
+
+  role = this.cookieService.get('role');
 
   ngOnInit(): void {
-    this.mainMenu.defaultOptions = [
-      {
-        name: 'Home',
-        icon: 'uil uil-estate',
-        router: ['/', 'auth']
-      },
-      {
-        name: 'Buscar',
-        icon: 'uil uil-search',
-        router: ['/', 'history']
-      },
-      {
-        name: 'Tu biblioteca',
-        icon: 'uil uil-chart',
-        router: ['/', 'favorites'],
-        query: { hola: 'mundo' }
-      }
-    ]
+    if (this.role=="admin"){
+      this.mainMenu.defaultOptions = [
+        {
+          name: 'Home',
+          icon: 'uil uil-estate',
+          router: ['/', 'auth']
+        },
+        {
+          name: 'Buscar',
+          icon: 'uil uil-search',
+          router: ['/', 'history']
+        },
+        {
+          name: 'Tu biblioteca',
+          icon: 'uil uil-chart',
+          router: ['/', 'favorites'],
+          query: { hola: 'mundo' }
+        },
+        {
+          name: 'Admin',
+          icon: 'uil uil-lock-alt',
+          router: ['/', 'admin']
+        }
+        
+      ]
+    }else{
+      this.mainMenu.defaultOptions = [
+        {
+          name: 'Home',
+          icon: 'uil uil-estate',
+          router: ['/', 'auth']
+        },
+        {
+          name: 'Buscar',
+          icon: 'uil uil-search',
+          router: ['/', 'history']
+        },
+        {
+          name: 'Tu biblioteca',
+          icon: 'uil uil-chart',
+          router: ['/', 'favorites'],
+          query: { hola: 'mundo' }
+        }
+        
+      ]
+    }
+    
 
     this.mainMenu.accessLink = [
       {

@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    api: 'https://api-spotify-leifer.herokuapp.com/api/1.0'
+    api: 'https://backend-spotify-bootcamps-tribe.onrender.com/api/1.0'
   };

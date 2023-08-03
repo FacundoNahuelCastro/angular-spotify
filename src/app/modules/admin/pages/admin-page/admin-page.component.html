@@ -1,0 +1,63 @@
+<div class="admin-page">
+    <div class="row">
+
+        <form [formGroup]="formAdmin" class="login-auth-form">
+            <input class="input-generico" formControlName="nombre" type="text" placeholder="nombre" [(ngModel)]="nombre">
+            <input class="input-generico" formControlName="album" type="text" placeholder="album" [(ngModel)]="album">
+            <input class="input-generico" formControlName="cover" type="text" placeholder="cover" [(ngModel)]="cover" >
+            <input class="input-generico" formControlName="artista" type="text" placeholder="artista" [(ngModel)]="artista" >
+            <div *ngIf="nuevoTrack">
+                <input type="button" value="addTrack" class="button-save" (ngSubmit)="impactarAdd()">
+            </div>
+            <div *ngIf="modificarTrack">
+                <input type="button" value="editTrack" class="button-save" (ngSubmit)="impactarPut()">
+            </div>
+        </form>
+        
+        
+        
+    </div>
+    <div class="play-list-body">
+        <ul class="play-list-table-header">
+            <li (click)="changeSort('name')">Nombre ❤</li>
+            <li (click)="changeSort('album')">álbum 🆗</li>
+            <li>editar</li>
+            <li>borrar</li>
+        </ul>
+        <ul class="play-list-rows" *ngFor="let track of tracksTrending |orderList:optionSort.property:optionSort.order">
+            <li class="track-name">
+                <ng-container *ngTemplateOutlet="coverSection;context:{track:track}"></ng-container>
+            </li>
+            <li class="track-name-opacity">
+                {{track.album}}
+            </li>
+            <li class="track-name-opacity">
+                <button (click)="editarTrack(track)" class="edit-btn"><i class="uil uil-edit"></i></button>
+            </li>
+            <li class="track-name-opacity">
+                <button class="del-btn" (click)="borrarTrack(track)"><i class="uil uil-times-circle"></i></button>
+            </li>
+    
+        </ul>
+    </div>
+    
+    <!--template del cover-->
+    <ng-template #coverSection let-track="track">
+    
+        <div class="cover-section">
+            <img appImgBroken class="cover-track" [src]="track.cover" [alt]="track.name">
+            <div class="cover-info">
+                <div class="name-track">{{track.name}}</div>
+                <div class="name-track-details">{{track.artist.name}}</div>
+            </div>
+        </div>
+    
+    </ng-template>
+</div>
+
+
+<div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status" >
+      <span class="sr-only" id="loading"></span>
+    </div>
+  </div>
